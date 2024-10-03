@@ -48,3 +48,16 @@ export type NewBooking = {
   price: number;
   address: string;
 };
+export type Booking = {
+  _id: string;
+  email: string;
+  name: string;
+  countryCode: string;
+  phone: string;
+  date: string;
+  serviceName: string;
+  serviceImage: string;
+  serviceID: string;
+  price: number;
+  address: string;
+};

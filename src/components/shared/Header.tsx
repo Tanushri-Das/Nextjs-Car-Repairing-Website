@@ -39,8 +39,8 @@ const Header = () => {
             <Link href="/services" className="text-lg">
               Services
             </Link>
-            <Link href="/my-bookings" className="text-lg">
-              My Bookings
+            <Link href="/myCart" className="text-lg">
+              My Cart
             </Link>
             {session ? (
               <>
@@ -96,8 +96,8 @@ const Header = () => {
             <Link href="/services" onClick={toggleDrawer}>
               Services
             </Link>
-            <Link href="/my-bookings" onClick={toggleDrawer}>
-              My Bookings
+            <Link href="/myCart" onClick={toggleDrawer}>
+              My Cart
             </Link>
             {session ? (
               <>

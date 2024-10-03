@@ -47,7 +47,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
       queryClient.invalidateQueries({
         queryKey: ["myBookings", session?.user?.email],
       });
-      router.push("/my-bookings");
+      router.push("/myCart");
       Swal.fire({
         title: "Success!",
         text: "New booking added successfully",
@@ -92,9 +92,9 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
       serviceID: _id,
       price: Number(price),
     };
-    form.reset(); // Now we can safely call reset
     // Trigger mutation
     bookingMutation.mutate(newBooking);
+    form.reset(); // Now we can safely call reset
   };
 
   return (

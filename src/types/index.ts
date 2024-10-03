@@ -39,10 +39,12 @@ export type Review = {
 export type NewBooking = {
   email: string;
   name: string;
+  countryCode: string;
   phone: string;
   date: string;
   serviceName: string;
   serviceImage: string;
   serviceID: string;
   price: number;
+  address: string;
 };

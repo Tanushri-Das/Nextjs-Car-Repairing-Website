@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/shared/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import SessionWrapper from "@/components/shared/SessionWrapper";
+import TanstackProvider from "@/components/TanstackProvider";
+import Footer from "@/components/shared/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,8 +40,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            {children}
+            <TanstackProvider>
+              <Header />
+              {children}
+              <Footer/>
+            </TanstackProvider>
           </ThemeProvider>
         </body>
       </html>

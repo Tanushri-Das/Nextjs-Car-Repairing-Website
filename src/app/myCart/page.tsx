@@ -4,15 +4,46 @@ import useCart from "@/hooks/useCart";
 import { Booking } from "@/types";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { FiTrash } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const MyCart = () => {
   const { data: cartData } = useCart();
   const { data: session } = useSession();
   const myBookings = cartData?.mybookings || [];
+  const queryClient = useQueryClient();
 
+  // Mutation to handle booking deletion
+  const deleteMutation = useMutation({
+    mutationFn: async (bookingId: string) => {
+      return await axios.delete(`/myCart/api/booking/${bookingId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myCart", session?.user?.email ?? ""],
+      });
+    },
+    onError: (error) => {
+      console.error("Error deleting booking:", error);
+    },
+  });
+  // Handle delete button click
+  const handleDelete = (bookingId: string) => {
+    deleteMutation.mutate(bookingId);
+    Swal.fire({
+      title: "Success!",
+      text: "Book deleted succesfully from the cart",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  };
+  const totalAmount = myBookings.reduce(
+    (acc: number, booking: Booking) => acc + booking.price,
+    0
+  );
   return (
     <Container className="mt-12">
       <h1 className="text-3xl font-bold flex justify-center items-center">
@@ -96,6 +127,7 @@ const MyCart = () => {
                         Edit
                       </Button>
                       <Button
+                        onClick={() => handleDelete(booking._id)}
                         type="submit"
                         className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811] ms-3"
                       >
@@ -108,6 +140,10 @@ const MyCart = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      {/* Total Amount */}
+      <div className="mt-4 text-lg font-bold text-center">
+        Total Amount : ${totalAmount.toFixed(2)}
       </div>
     </Container>
   );

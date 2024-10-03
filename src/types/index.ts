@@ -36,3 +36,13 @@ export type Review = {
   description: string;
   image: string;
 };
+export type NewBooking = {
+  email: string;
+  name: string;
+  phone: string;
+  date: string;
+  serviceName: string;
+  serviceImage: string;
+  serviceID: string;
+  price: number;
+};

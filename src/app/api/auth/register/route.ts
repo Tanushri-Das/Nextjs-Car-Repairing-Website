@@ -23,14 +23,22 @@ export async function POST(request: Request) {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the account
-    await db.collection("users").insertOne({ name, email, password: hashedPassword });
+    // Create the account with the role
+    await db.collection("users").insertOne({
+      name,
+      email,
+      password: hashedPassword,
+      role: "user", // Assign the default role
+    });
 
     return NextResponse.json({ success: "Account created" }, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    return NextResponse.json({ error: "An unknown error occurred" }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unknown error occurred" },
+      { status: 500 }
+    );
   }
 }

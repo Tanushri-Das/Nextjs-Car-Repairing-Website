@@ -61,3 +61,8 @@ export type Booking = {
   price: number;
   address: string;
 };
+// Define the response type for the API
+export type BookingResponse = {
+  message: string;
+  response: Booking;
+};

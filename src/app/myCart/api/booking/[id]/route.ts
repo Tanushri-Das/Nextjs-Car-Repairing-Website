@@ -32,12 +32,12 @@ export const PATCH = async (
   const client = await clientPromise;
   const db = client.db();
   const bookingsCollection = db.collection("bookings");
-  const { address, date, phone, quantity} = await req.json();
+  const { address, date, countryCode, phone } = await req.json();
 
   try {
     const res = await bookingsCollection.updateOne(
       { _id: new ObjectId(params.id) },
-      { $set: { address, date, phone, quantity} },
+      { $set: { address, date, countryCode, phone } },
       { upsert: true }
     );
     return NextResponse.json({

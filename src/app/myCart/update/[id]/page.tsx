@@ -1,109 +1,111 @@
 "use client";
-import LoadingPage from "@/app/loading";
-import useServiceById from "@/hooks/useServiceById";
-import { NewBooking } from "@/types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import Container from "@/components/Container";
+import useCartById from "@/hooks/useCartById";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
+import LoadingPage from "@/app/loading";
 import { useRouter } from "next/navigation";
-import Container from "@/components/Container";
 
-const CheckoutPage = ({ params }: { params: { id: string } }) => {
+const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const { data: session } = useSession();
+  const { data, isLoading } = useCartById(id);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const queryClient = useQueryClient();
+  const [formData, setFormData] = useState<any>({});
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  // Fetch service data using the ID
-  const { data, isLoading } = useServiceById(id);
+  const booking = data?.response;
 
-  // If the data is still loading, display the loading page
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
-  // Access the service data from the response object
-  const service = data?.response;
-
-  // If service data is not available, return early or render a fallback
-  if (!service) {
-    return <div>Service not found.</div>;
-  }
-
-  // Destructure the service object
-  const { title, img, price, _id } = service;
-
-  // Mutation hook should always be called, no conditional logic
-  const bookingMutation = useMutation({
-    mutationFn: (newBooking: NewBooking) => {
-      return axios.post("/checkout/api/new-booking", newBooking);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["myBookings", session?.user?.email],
+  // Populate the form data once booking data is loaded
+  useEffect(() => {
+    if (booking) {
+      setFormData({
+        name: session?.user?.name || "",
+        date: booking.date || "",
+        email: session?.user?.email || "",
+        price: booking.price || "",
+        address: booking.address || "",
+        phone: booking.phone || "",
+        countryCode: booking.countryCode || "", // Initialize countryCode here
       });
-      router.push("/myCart");
-      Swal.fire({
-        title: "Success!",
-        text: "New booking added successfully",
-        icon: "success",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    },
-  });
+      setPhoneNumber(`${booking.countryCode}${booking.phone}`);
+    }
+  }, [booking, session]);
 
   const handleChange = (value: string) => {
     setPhoneNumber(value);
   };
 
+  // Handle input changes in the form
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Mutation for updating booking
+  const updateMutation = useMutation({
+    mutationFn: async (updatedBooking: any) => {
+      return await axios.patch(
+        `/myCart/api/booking/${updatedBooking._id}`,
+        updatedBooking
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myBookings", session?.user?.email ?? ""],
+      });
+
+      Swal.fire({
+        title: "Success!",
+        text: "Update personal information successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        router.push("/myCart"); // Navigate to MyCart after update
+      });
+    },
+    onError: (error) => {
+      console.error("Error updating booking:", error);
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Cast e.target to HTMLFormElement
-    const form = e.target as HTMLFormElement;
+    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); // Assuming country code is 3 digits
+    const phone = phoneNumber.slice(-10); // Last 10 digits for the phone number
 
-    // Extract phone number and country code as before
-    let countryCode = "";
-    let phone = "";
-
-    if (phoneNumber.startsWith("+")) {
-      countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      phone = phoneNumber.slice(-10);
-    } else {
-      countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
-      phone = phoneNumber.slice(-10);
-    }
-
-    const newBooking: NewBooking = {
-      email: session?.user?.email || "",
-      name: session?.user?.name || "",
-      address: form.address.value,
-      countryCode: countryCode,
-      phone: phone,
-      date: form.date.value,
-      serviceName: title,
-      serviceImage: img,
-      serviceID: _id,
-      price: Number(price),
+    const updatedBooking = {
+      ...booking,
+      ...formData,
+      phone,
+      countryCode,
     };
-    // Trigger mutation
-    bookingMutation.mutate(newBooking);
-    form.reset(); // Now we can safely call reset
+
+    updateMutation.mutate(updatedBooking);
   };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <Container className="mt-14">
       <div className="relative h-72 w-[90vw] max-w-full mx-auto mb-16">
         <div className="w-full h-full relative overflow-hidden rounded-lg shadow-lg">
           <Image
-            src={img}
+            src={booking?.serviceImage || "/default-image.jpg"}
             alt="service"
             layout="fill"
             objectFit="cover"
@@ -112,7 +114,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
         </div>
         <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
           <h1 className="text-white text-4xl font-bold flex justify-center items-center ml-8 drop-shadow-md">
-            Check Out {title}
+            Update Booking : {booking?.serviceName}
           </h1>
         </div>
       </div>
@@ -126,8 +128,9 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
               </label>
               <input
                 type="text"
-                defaultValue={session?.user?.name || ""}
+                value={formData.name}
                 name="name"
+                onChange={handleInputChange}
                 className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
               />
             </div>
@@ -137,10 +140,11 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
                 Date
               </label>
               <input
-                defaultValue={new Date().toISOString().split("T")[0]}
+                value={formData.date}
                 type="date"
                 name="date"
                 required
+                onChange={handleInputChange}
                 className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
               />
             </div>
@@ -151,9 +155,9 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
               </label>
               <input
                 type="text"
-                defaultValue={session?.user?.email || ""}
+                value={formData.email}
                 name="email"
-                placeholder="email"
+                onChange={handleInputChange}
                 className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
               />
             </div>
@@ -164,7 +168,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
               </label>
               <input
                 readOnly
-                defaultValue={price}
+                value={formData.price}
                 type="text"
                 name="price"
                 className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
@@ -193,9 +197,10 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
               </label>
               <input
                 type="text"
-                required
+                value={formData.address}
                 name="address"
-                placeholder="Your Address"
+                onChange={handleInputChange}
+                required
                 className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
               />
             </div>
@@ -214,4 +219,4 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default CheckoutPage;
+export default BookingUpdatePage;

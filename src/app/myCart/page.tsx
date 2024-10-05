@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 const MyCart = () => {
   const { data: cartData } = useCart();
@@ -110,7 +111,7 @@ const MyCart = () => {
                     {booking.address}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
-                    {booking.phone}
+                    +{booking.countryCode}-{booking.phone}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.date}
@@ -120,12 +121,15 @@ const MyCart = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <Button
-                        type="submit"
-                        className="rounded-md text-white text-[16px] font-medium bg-[#444444] dark:bg-[#444444]"
-                      >
-                        Edit
-                      </Button>
+                      <Link href={`/myCart/update/${booking._id}`}>
+                        <Button
+                          type="submit"
+                          className="rounded-md text-white text-[16px] font-medium bg-[#444444] dark:bg-[#444444]"
+                        >
+                          Edit
+                        </Button>
+                      </Link>
+
                       <Button
                         onClick={() => handleDelete(booking._id)}
                         type="submit"

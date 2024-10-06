@@ -36,17 +36,17 @@ const Header = () => {
             <Link href="/" className="text-lg">
               Home
             </Link>
-            <Link href="/services" className="text-lg">
-              Services
-            </Link>
             <Link href="/myCart" className="text-lg">
               My Cart
+            </Link>
+            <Link href="/review" className="text-lg">
+              Add Review
             </Link>
             {session ? (
               <>
                 <button
                   onClick={() => signOut()}
-                  className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-3"
+                  className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-1"
                 >
                   LogOut
                 </button>
@@ -54,7 +54,7 @@ const Header = () => {
             ) : (
               <Link
                 href="/login"
-                className="rounded-md text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                className="rounded-md text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium ms-1"
               >
                 Login
               </Link>
@@ -93,8 +93,8 @@ const Header = () => {
             <Link href="/" onClick={toggleDrawer}>
               Home
             </Link>
-            <Link href="/services" onClick={toggleDrawer}>
-              Services
+            <Link href="/review" onClick={toggleDrawer}>
+              Add Review
             </Link>
             <Link href="/myCart" onClick={toggleDrawer}>
               My Cart

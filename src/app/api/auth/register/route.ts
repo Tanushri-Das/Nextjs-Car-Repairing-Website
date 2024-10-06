@@ -28,7 +28,6 @@ export async function POST(request: Request) {
       name,
       email,
       password: hashedPassword,
-      role: "user", // Assign the default role
     });
 
     return NextResponse.json({ success: "Account created" }, { status: 200 });

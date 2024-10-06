@@ -23,22 +23,6 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
   // Fetch service data using the ID
   const { data, isLoading } = useServiceById(id);
 
-  // If the data is still loading, display the loading page
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
-  // Access the service data from the response object
-  const service = data?.response;
-
-  // If service data is not available, return early or render a fallback
-  if (!service) {
-    return <div>Service not found.</div>;
-  }
-
-  // Destructure the service object
-  const { title, img, price, _id } = service;
-
   // Mutation hook should always be called, no conditional logic
   const bookingMutation = useMutation({
     mutationFn: (newBooking: NewBooking) => {
@@ -59,6 +43,21 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
     },
   });
 
+  // If the data is still loading, display the loading page
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  // Access the service data from the response object
+  const service = data?.response;
+
+  // If service data is not available, return early or render a fallback
+  if (!service) {
+    return <div>Service not found.</div>;
+  }
+
+  const { title, img, price, _id } = service;
+
   const handleChange = (value: string) => {
     setPhoneNumber(value);
   };
@@ -66,10 +65,8 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Cast e.target to HTMLFormElement
     const form = e.target as HTMLFormElement;
 
-    // Extract phone number and country code as before
     let countryCode = "";
     let phone = "";
 
@@ -93,9 +90,9 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
       serviceID: _id,
       price: Number(price),
     };
-    // Trigger mutation
+
     bookingMutation.mutate(newBooking);
-    form.reset(); // Now we can safely call reset
+    form.reset();
   };
 
   return (

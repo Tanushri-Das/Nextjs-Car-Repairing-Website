@@ -7,7 +7,7 @@ import ServiceCard from "../cards/ServiceCard";
 const Services = () => {
   const { data: services } = useServices();
   return (
-    <Container>
+    <Container id="services">
       <h3 className="font-bold text-primary text-[20px] text-center mb-1">
         Services
       </h3>

@@ -23,12 +23,10 @@ export async function POST(request: Request) {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the account with the role
-    await db.collection("users").insertOne({
-      name,
-      email,
-      password: hashedPassword,
-    });
+    // Create the account
+    await db
+      .collection("users")
+      .insertOne({ name, email, password: hashedPassword });
 
     return NextResponse.json({ success: "Account created" }, { status: 200 });
   } catch (error: unknown) {

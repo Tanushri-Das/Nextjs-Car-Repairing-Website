@@ -1,12 +1,18 @@
 "use client";
+
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+import { usePathname, useRouter } from "next/navigation";
 import useServiceById from "@/hooks/useServiceById";
 import Image from "next/image";
-import Link from "next/link";
 import Container from "@/components/Container";
 import LoadingPage from "@/app/loading";
 
 const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
+  const { data: session } = useSession();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Fetch service data using the ID
   const { data, isLoading } = useServiceById(id); // Use isLoading and isError
@@ -26,6 +32,27 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
 
   // Destructure the service object
   const { title, description, img, price, facility, _id } = service;
+
+  const handleCheckoutClick = () => {
+    if (!session) {
+      Swal.fire({
+        title: "Please login to proceed to checkout",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Now",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to login page with callback URL
+          router.push(`/login?callbackUrl=${pathname}`);
+        }
+      });
+    } else {
+      // Proceed to checkout if user is logged in
+      router.push(`/checkout/${_id}`);
+    }
+  };
 
   return (
     <Container className="mt-14">
@@ -78,11 +105,12 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
               <h2 className="text-xl font-bold">Price : </h2>
               <p className="text-xl font-bold ms-1"> ${price}</p>
             </div>
-            <Link href={`/checkout/${_id}`}>
-              <button className="bg-primary text-white px-3 py-2 rounded-lg mt-2 w-full">
-                Check out
-              </button>
-            </Link>
+            <button
+              className="bg-primary text-white px-3 py-2 rounded-lg mt-2 w-full"
+              onClick={handleCheckoutClick}
+            >
+              Check out
+            </button>
           </div>
         </div>
       </div>

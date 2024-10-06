@@ -36,14 +36,21 @@ const Header = () => {
             <Link href="/" className="text-lg">
               Home
             </Link>
-            <Link href="/myCart" className="text-lg">
-              My Cart
+            <Link href="#about" className="text-lg">
+              About
+            </Link>
+            <Link href="#services" className="text-lg">
+              Services
             </Link>
             <Link href="/add-review" className="text-lg">
               Add Review
             </Link>
+
             {session ? (
               <>
+                <Link href="/myCart" className="text-lg">
+                  My Cart
+                </Link>
                 <button
                   onClick={() => signOut()}
                   className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-1"
@@ -93,14 +100,20 @@ const Header = () => {
             <Link href="/" onClick={toggleDrawer}>
               Home
             </Link>
+            <Link href="#about" onClick={toggleDrawer}>
+              About
+            </Link>
+            <Link href="#services" onClick={toggleDrawer}>
+              Services
+            </Link>
             <Link href="/add-review" onClick={toggleDrawer}>
               Add Review
             </Link>
-            <Link href="/myCart" onClick={toggleDrawer}>
-              My Cart
-            </Link>
             {session ? (
               <>
+                <Link href="/myCart" onClick={toggleDrawer}>
+                  My Cart
+                </Link>
                 <button
                   onClick={() => {
                     toggleDrawer(); // Close the drawer

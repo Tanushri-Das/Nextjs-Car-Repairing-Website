@@ -7,12 +7,14 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const img_hosting_token = process.env.NEXT_PUBLIC_Image_Upload_token;
 const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
 
 const AddReview: React.FC = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -32,8 +34,8 @@ const AddReview: React.FC = () => {
         timer: 1500,
         showConfirmButton: false,
       });
-
       reset();
+      router.push("/");
     },
     onError: () => {
       Swal.fire({

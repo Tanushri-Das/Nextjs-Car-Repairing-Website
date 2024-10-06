@@ -80,7 +80,6 @@ export const authOptions: NextAuthOptions = {
           await db.collection("users").insertOne({
             name: user.name || (profile?.name ?? "Unknown"), // Get user's name from profile or fallback
             email: user.email || (profile?.email ?? "Unknown"), // Get user's email from profile or fallback
-            role: "user", // Set default role for new users
           });
         }
       }

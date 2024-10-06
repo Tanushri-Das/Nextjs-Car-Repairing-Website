@@ -28,7 +28,7 @@ export type Team = {
   designation: string;
 };
 export type Review = {
-  _id: string;
+  _id?: string;
   name: string;
   email: string;
   designation: string;

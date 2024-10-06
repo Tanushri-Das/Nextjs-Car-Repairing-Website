@@ -7,9 +7,9 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db();
 
-    const reviews = await db.collection("reviews").find({}).toArray();
+    const reviewsCollection = await db.collection("reviews").find({}).toArray();
 
-    return NextResponse.json(reviews, { status: 200 });
+    return NextResponse.json(reviewsCollection, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       // Handle any errors that occur during the database fetch
@@ -22,3 +22,30 @@ export async function GET() {
     );
   }
 }
+
+export const POST = async (request: Request) => {
+  try {
+    const newReview = await request.json();
+
+    // MongoDB তে সংযোগ স্থাপন
+    const client = await clientPromise;
+    const db = client.db();
+    const reviewsCollection = db.collection("reviews");
+
+    // নতুন contact ডেটা MongoDB তে insert করা
+    await reviewsCollection.insertOne(newReview);
+
+    return NextResponse.json(
+      { message: "Review added successfully" },
+      { status: 200 }
+    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+    return NextResponse.json(
+      { message: "Something went wrong" },
+      { status: 400 }
+    );
+  }
+};

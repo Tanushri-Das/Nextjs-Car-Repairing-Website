@@ -39,7 +39,7 @@ const Header = () => {
             <Link href="/myCart" className="text-lg">
               My Cart
             </Link>
-            <Link href="/review" className="text-lg">
+            <Link href="/add-review" className="text-lg">
               Add Review
             </Link>
             {session ? (
@@ -93,7 +93,7 @@ const Header = () => {
             <Link href="/" onClick={toggleDrawer}>
               Home
             </Link>
-            <Link href="/review" onClick={toggleDrawer}>
+            <Link href="/add-review" onClick={toggleDrawer}>
               Add Review
             </Link>
             <Link href="/myCart" onClick={toggleDrawer}>

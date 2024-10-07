@@ -94,13 +94,13 @@ const AddReview: React.FC = () => {
   };
 
   return (
-    <Container className="mt-12">
-      <h1 className="text-4xl text-center font-bold mb-4">Add Review</h1>
+    <Container className="mt-14 ps-0 md:ps-4">
+      <h1 className="text-4xl text-center font-bold">Add Review</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 mt-10 max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
               Username
@@ -124,7 +124,7 @@ const AddReview: React.FC = () => {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
               Designation

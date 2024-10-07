@@ -3,11 +3,12 @@ import person from "../../assets/images/about_us/person.jpg";
 import parts from "../../assets/images/about_us/parts.jpg";
 import Image from "next/image";
 import Container from "../Container";
+import { Button } from "../ui/button";
 
 const About = () => {
   return (
-    <Container id="about">
-      <div className="flex flex-col lg:flex-row items-center">
+    <Container id="about" className="-mt-10">
+      <div className="flex flex-col lg:flex-row items-center gap-x-8">
         <div className="lg:w-1/2 relative mb-28 lg:mb-0">
           <Image
             src={person}
@@ -21,7 +22,7 @@ const About = () => {
           />
         </div>
         <div className="lg:w-1/2">
-          <h1 className="text-[20px] text-primary mb-2 font-bold">About Us</h1>
+          <h1 className="text-[20px] text-primary mb-3 font-bold">About Us</h1>
           <h2 className="text-[#151515] text-[45px] font-bold mb-3 w-full lg:w-[376px]">
             We are qualified & of experience in this field
           </h2>
@@ -36,9 +37,12 @@ const About = () => {
             humour, or randomised words which don&apos;t look even slightly
             believable.
           </p>
-          <button className="btn btn-primary font-semibold text-[18px] text-white">
+          <Button
+            type="submit"
+            className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+          >
             Get More Info
-          </button>
+          </Button>
         </div>
       </div>
     </Container>

@@ -42,15 +42,18 @@ const Header = () => {
             <Link href="#services" className="text-lg">
               Services
             </Link>
-            <Link href="/add-review" className="text-lg">
-              Add Review
+            <Link href="/contacts" className="text-lg">
+              Contacts
             </Link>
 
             {session ? (
               <>
-                <Link href="/myCart" className="text-lg">
-                  My Cart
+                <Link href="/dashboard" className="text-lg">
+                  Dashboard
                 </Link>
+                {/* <Link href="/myCart" className="text-lg">
+                  My Cart
+                </Link> */}
                 <button
                   onClick={() => signOut()}
                   className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-1"

@@ -66,3 +66,11 @@ export type BookingResponse = {
   message: string;
   response: Booking;
 };
+export type Contact = {
+  name: string;
+  email: string;
+  address: string;
+  phone: string;
+  countryCode: string;
+  message: string;
+};

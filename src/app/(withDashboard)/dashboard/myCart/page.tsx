@@ -19,7 +19,7 @@ const MyCart = () => {
   // Mutation to handle booking deletion
   const deleteMutation = useMutation({
     mutationFn: async (bookingId: string) => {
-      return await axios.delete(`/myCart/api/booking/${bookingId}`);
+      return await axios.delete(`/dashboard/myCart/api/booking/${bookingId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -46,7 +46,7 @@ const MyCart = () => {
     0
   );
   return (
-    <Container className="mt-12">
+    <Container className="mt-14">
       <h1 className="text-4xl font-bold flex justify-center items-center">
         My Cart
       </h1>
@@ -121,7 +121,7 @@ const MyCart = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <Link href={`/myCart/update/${booking._id}`}>
+                      <Link href={`/dashboard/myCart/update/${booking._id}`}>
                         <Button
                           type="submit"
                           className="rounded-md text-white text-[16px] font-medium bg-[#444444] dark:bg-[#444444]"
@@ -135,7 +135,7 @@ const MyCart = () => {
                         type="submit"
                         className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811] ms-3"
                       >
-                        Submit
+                        Delete
                       </Button>
                     </div>
                   </td>

@@ -32,7 +32,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
       queryClient.invalidateQueries({
         queryKey: ["myBookings", session?.user?.email],
       });
-      router.push("/myCart");
+      router.push("/dashboard/myCart");
       Swal.fire({
         title: "Success!",
         text: "New booking added successfully",

@@ -56,7 +56,7 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
   const updateMutation = useMutation({
     mutationFn: async (updatedBooking: any) => {
       return await axios.patch(
-        `/myCart/api/booking/${updatedBooking._id}`,
+        `/dashboard/myCart/api/booking/${updatedBooking._id}`,
         updatedBooking
       );
     },
@@ -72,7 +72,7 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
-        router.push("/myCart"); // Navigate to MyCart after update
+        router.push("/dashboard/myCart"); // Navigate to MyCart after update
       });
     },
     onError: (error) => {
@@ -101,8 +101,8 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <Container className="mt-14">
-      <div className="relative h-72 w-[90vw] max-w-full mx-auto mb-16">
+    <Container className="mt-14 ps-0 md:ps-4">
+      <div className="relative h-72 w-[90vw] max-w-full mx-auto mb-0 md:mb-16 hidden md:block">
         <div className="w-full h-full relative overflow-hidden rounded-lg shadow-lg">
           <Image
             src={booking?.serviceImage || "/default-image.jpg"}
@@ -119,7 +119,7 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-900 w-full max-w-4xl mx-auto p-12 rounded-lg shadow-md">
+      <div className="bg-white dark:bg-gray-900 w-full max-w-4xl mx-auto p-6 py-9 md:p-12 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="form-control">

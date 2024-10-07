@@ -7,7 +7,9 @@ const useCart = () => {
   return useQuery({
     queryKey: ["myCart", session?.user?.email],
     queryFn: () =>
-      fetch(`/myCart/api/${session?.user?.email}`).then((res) => res.json()),
+      fetch(`/dashboard/myCart/api/${session?.user?.email}`).then((res) =>
+        res.json()
+      ),
     enabled: !!session?.user?.email,
 
     refetchInterval: 20000,

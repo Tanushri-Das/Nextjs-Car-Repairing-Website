@@ -5,7 +5,7 @@ const useCartById = (id: string) => {
   return useQuery<BookingResponse>({
     queryKey: ["update", id],
     queryFn: () =>
-      fetch(`/myCart/api/booking/${id}`).then((res) => {
+      fetch(`/dashboard/myCart/api/booking/${id}`).then((res) => {
         if (!res.ok) {
           throw new Error("Booking not found");
         }

@@ -51,7 +51,7 @@ const Testimonials = () => {
           <h5 className="text-[#151515] dark:text-gray-300 text-[45px] font-bold mb-3 text-center">
             What Customer Says
           </h5>
-          <p className="text-[#737373] dark:text-gray-300 text-[16px] font-normal w-full max-w-[717px] mx-auto text-center capitalize">
+          <p className="text-[#737373] dark:text-gray-300 text-[16px] font-normal w-full max-w-[717px] mx-auto text-center">
             Discover what our customers have to say about their experiences! We
             take pride in delivering reliable, high-quality service every time.
           </p>

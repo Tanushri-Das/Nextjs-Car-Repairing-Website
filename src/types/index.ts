@@ -74,3 +74,7 @@ export type Contact = {
   countryCode: string;
   message: string;
 };
+export type Faq = {
+  question: string;
+  answer: string;
+};

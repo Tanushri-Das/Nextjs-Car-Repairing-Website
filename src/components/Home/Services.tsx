@@ -14,7 +14,7 @@ const Services = () => {
       <h5 className="text-[#151515] dark:text-gray-300 text-[45px] font-bold mb-3 text-center">
         Our Service Area
       </h5>
-      <p className="text-[#737373] dark:text-gray-300 text-[16px] font-medium mb-10 w-full max-w-[717px] mx-auto text-center capitalize">
+      <p className="text-[#737373] dark:text-gray-300 text-[16px] font-medium mb-10 w-full max-w-[717px] mx-auto text-center">
         Expert car repair services, including engine diagnostics, brake
         replacements, and oil changes, ensuring smooth performance.
       </p>

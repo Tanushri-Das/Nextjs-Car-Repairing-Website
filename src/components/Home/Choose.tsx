@@ -15,9 +15,10 @@ const Choose = () => {
       <h5 className="text-[#151515] dark:text-gray-300 text-[45px] font-bold mb-3 text-center">
         Why Choose Us
       </h5>
-      <p className="text-[#737373] dark:text-gray-300 text-[16px] font-normal mb-10 w-full max-w-[717px] mx-auto text-center capitalize">
-        The majority have suffered alteration in some form, by injected humour,
-        or randomised words which don&apos;t look even slightly believable.
+      <p className="text-[#737373] dark:text-gray-300 text-[16px] font-normal mb-10 w-full max-w-[717px] mx-auto text-center">
+        At our auto repair service center, we pride ourselves on delivering
+        high-quality workmanship, fast service, and customer satisfaction. Trust
+        us to keep your car running smoothly and safely on the road.
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 dark:bg-transparent">
         {[img1, img3, img4, img5, img6].map((img, index) => (

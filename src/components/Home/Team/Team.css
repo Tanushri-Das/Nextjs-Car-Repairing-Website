@@ -24,11 +24,6 @@
   z-index: 2;
   cursor: pointer;
 }
-.swiper-button-prev .fa,
-.swiper-button-next .fa {
-  font-size: 12px !important; /* Adjust as needed */
-}
-
 .swiper-button-next-container {
   position: absolute;
   right: 0;
@@ -49,8 +44,8 @@
   align-items: center;
   color: white;
   position: absolute;
-  right: -25px;
-  top: calc(50% - 25px);
+  right: -27.5px;
+  transform: translateY(-50%);
   z-index: 2;
   cursor: pointer;
 }
@@ -73,15 +68,13 @@
 .swiper-button-next::after {
   content: none;
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .swiper-button-prev-container,
   .swiper-button-next-container {
     display: none;
   }
 }
-
-/* Show navigation buttons for screens 992px and larger */
-@media (min-width: 601px) {
+@media (min-width: 768px) {
   .swiper-button-prev-container,
   .swiper-button-next-container {
     display: block;
@@ -89,5 +82,41 @@
   .swiper-button-prev-container,
   .swiper-button-next-container {
     top: 71%;
+  }
+}
+@media (min-width: 767px) and (max-width: 1024px) {
+  .swiper-button-prev {
+    position: absolute;
+    left: 39px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
+  }
+  .swiper-button-next {
+    position: absolute;
+    right: 39px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .swiper-button-prev {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
+  }
+  .swiper-button-next {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    cursor: pointer;
   }
 }

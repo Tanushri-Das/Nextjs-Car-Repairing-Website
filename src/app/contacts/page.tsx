@@ -12,8 +12,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import img from "../../assets/images/banner/4.jpg";
 import Image from "next/image";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const Contacts = () => {
+  useDynamicTitle();
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -178,7 +180,7 @@ const Contacts = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+            className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
           >
             Submit
           </Button>

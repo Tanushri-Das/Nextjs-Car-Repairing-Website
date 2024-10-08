@@ -1,12 +1,11 @@
 "use client";
-import Container from "@/components/Container";
 import { ThemeToggler } from "@/components/ThemeToggler";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaXmark } from "react-icons/fa6";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/images/logo.jpeg";
 import { useSession, signOut } from "next-auth/react";
 
 const Header = () => {
@@ -19,12 +18,20 @@ const Header = () => {
 
   return (
     <header className="dark:text-gray-200 border-b-[1px] border-black/80 dark:border-b-white/20">
-      <Container className="py-2 flex items-center justify-between">
+      <div className="px-10 py-2 flex items-center justify-between">
         {/* Left: Logo */}
         <div className="text-lg font-bold lg:flex-grow-0">
           <Link href="/">
             <div className="flex justify-center items-center">
-              <Image alt="logo" src={logo} height={60} width={100} />
+              <Image alt="logo" src={logo} height={80} width={80} />
+              <h1
+                className="text-3xl font-bold italic hidden lg:block 
+        text-[#151515] tracking-wide dark:text-gray-300 dark:ms-2
+        transition-all duration-300 ease-in-out 
+        hover:scale-105"
+              >
+                Car<span className="text-[#FF3811]">Care</span>
+              </h1>
             </div>
           </Link>
         </div>
@@ -51,12 +58,9 @@ const Header = () => {
                 <Link href="/dashboard" className="text-lg">
                   Dashboard
                 </Link>
-                {/* <Link href="/myCart" className="text-lg">
-                  My Cart
-                </Link> */}
                 <button
                   onClick={() => signOut()}
-                  className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-1"
+                  className="rounded-md text-[#FF3811] hover:text-white text-lg border-2 border-[#FF3811] hover:bg-[#FF3811] dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-semibold ms-1"
                 >
                   LogOut
                 </button>
@@ -64,9 +68,9 @@ const Header = () => {
             ) : (
               <Link
                 href="/login"
-                className="rounded-md text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium ms-1"
+                className="rounded-md text-[#FF3811] hover:text-white text-lg border-2 border-[#FF3811] hover:bg-[#FF3811] dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-semibold ms-1"
               >
-                Login
+                <button>Login</button>
               </Link>
             )}
           </div>
@@ -100,29 +104,33 @@ const Header = () => {
           {/* Drawer Navigation */}
           <nav className="flex flex-col gap-y-4 p-5 font-semibold text-lg lg:text-[16px]">
             {/* Hardcoded Drawer Links */}
-            <Link href="/" onClick={toggleDrawer}>
+            <Link href="/" className="text-lg" onClick={toggleDrawer}>
               Home
             </Link>
-            <Link href="#about" onClick={toggleDrawer}>
+            <Link href="#about" className="text-lg" onClick={toggleDrawer}>
               About
             </Link>
-            <Link href="#services" onClick={toggleDrawer}>
+            <Link href="#services" className="text-lg" onClick={toggleDrawer}>
               Services
             </Link>
-            <Link href="/add-review" onClick={toggleDrawer}>
-              Add Review
+            <Link href="/contacts" className="text-lg" onClick={toggleDrawer}>
+              Contacts
             </Link>
             {session ? (
               <>
-                <Link href="/myCart" onClick={toggleDrawer}>
-                  My Cart
+                <Link
+                  href="/dashboard"
+                  className="text-lg"
+                  onClick={toggleDrawer}
+                >
+                  Dashboard
                 </Link>
                 <button
                   onClick={() => {
                     toggleDrawer(); // Close the drawer
                     signOut();
                   }}
-                  className="rounded-md text-center text-white text-lg bg-fuchsia-800 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium w-28"
+                  className="rounded-md text-[#FF3811] hover:text-white text-lg border-2 border-[#FF3811] hover:bg-[#FF3811] dark:bg-transparent dark:border dark:border-gray-300 py-[6px] font-semibold w-28 text-center"
                 >
                   LogOut
                 </button>
@@ -131,9 +139,9 @@ const Header = () => {
               <Link
                 href="/login"
                 onClick={toggleDrawer}
-                className="rounded-md text-center text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium w-24"
+                className="rounded-md text-[#FF3811] hover:text-white text-lg border-2 border-[#FF3811] hover:bg-[#FF3811] dark:bg-transparent dark:border dark:border-gray-300 py-[6px] font-semibold w-28 text-center"
               >
-                Login
+                <button>Login</button>
               </Link>
             )}
           </nav>
@@ -146,7 +154,7 @@ const Header = () => {
             onClick={toggleDrawer}
           ></div>
         )}
-      </Container>
+      </div>
     </header>
   );
 };

@@ -121,7 +121,7 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
 
       <div className="bg-white dark:bg-gray-900 w-full max-w-4xl mx-auto p-6 py-9 md:p-12 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="form-control">
               <label className="text-lg font-medium text-gray-700 dark:text-gray-300 block mb-2">
                 Name

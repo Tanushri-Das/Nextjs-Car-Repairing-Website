@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 
 const About = () => {
   return (
-    <Container id="about" className="-mt-10">
+    <Container id="about" className="-mt-9">
       <div className="flex flex-col lg:flex-row items-center gap-x-8">
         <div className="lg:w-1/2 relative mb-28 lg:mb-0">
           <Image
@@ -22,24 +22,24 @@ const About = () => {
           />
         </div>
         <div className="lg:w-1/2">
-          <h1 className="text-[20px] text-primary mb-3 font-bold">About Us</h1>
-          <h2 className="text-[#151515] text-[45px] font-bold mb-3 w-full lg:w-[376px]">
+          <h1 className="text-[20px] mb-3 font-bold">About Us</h1>
+          <h2 className="text-[#151515] dark:text-gray-300 text-[45px] font-bold mb-3 w-full lg:w-[376px]">
             We are qualified & of experience in this field
           </h2>
-          <p className="text-[#737373] w-full lg:w-[489px] text-[16px] font-normal mb-3">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomised words which don&apos;t look even slightly
-            believable.{" "}
+          <p className="text-[#737373] dark:text-gray-300 w-full lg:w-[489px] text-[16px] font-medium mb-3">
+            At our car service center, we offer a wide range of automotive
+            repair and maintenance services. With years of experience, our
+            expert technicians ensure that your vehicle is in the best hands.
           </p>
-          <p className="text-[#737373] w-full lg:w-[489px] text-[16px] font-normal mb-6">
-            The majority have suffered alteration in some form, by injected
-            humour, or randomised words which don&apos;t look even slightly
-            believable.
+          <p className="text-[#737373] dark:text-gray-300 w-full lg:w-[489px] text-[16px] font-medium mb-6">
+            From routine oil changes to major repairs, we use the latest tools
+            and technology to provide quality services. Customer satisfaction is
+            our top priority, and we guarantee reliable and efficient car care.
           </p>
+
           <Button
             type="submit"
-            className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+            className="py-2 rounded-md text-white text-lg font-medium bg-[#FF3811] hover:bg-[#FF3811] dark:bg-[#FF3811]"
           >
             Get More Info
           </Button>

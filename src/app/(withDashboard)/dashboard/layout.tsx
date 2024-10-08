@@ -1,4 +1,10 @@
 import Sidebar from "@/components/shared/Sidebar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "CarCare | Dashboard",
+  description: "This is Dashboard",
+};
 
 export default async function DashboardLayout({
   children,
@@ -6,7 +12,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen my-2">
+    <div className="min-h-screen mt-6">
       <div className="flex justify-between">
         <div className="w-[20%]">
           <Sidebar />

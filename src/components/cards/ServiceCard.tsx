@@ -14,7 +14,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const { title, img, price, _id } = service;
   return (
     <>
-      <Card>
+      <Card className="dark:border-gray-500">
         <CardHeader className="p-0">
           <div className="w-full h-[210px] rounded-t-lg overflow-hidden">
             <div className="relative w-full h-full">

@@ -12,10 +12,10 @@ const Choose = () => {
       <h3 className="font-bold text-primary text-[20px] text-center mb-1">
         Core Features
       </h3>
-      <h5 className="text-[#151515] text-[45px] font-bold mb-3 text-center">
+      <h5 className="text-[#151515] dark:text-gray-300 text-[45px] font-bold mb-3 text-center">
         Why Choose Us
       </h5>
-      <p className="text-[#737373] text-[16px] font-normal mb-10 w-full max-w-[717px] mx-auto text-center capitalize">
+      <p className="text-[#737373] dark:text-gray-300 text-[16px] font-normal mb-10 w-full max-w-[717px] mx-auto text-center capitalize">
         The majority have suffered alteration in some form, by injected humour,
         or randomised words which don&apos;t look even slightly believable.
       </p>

@@ -7,8 +7,10 @@ import useServiceById from "@/hooks/useServiceById";
 import Image from "next/image";
 import Container from "@/components/Container";
 import LoadingPage from "@/app/loading";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
+  useDynamicTitle();
   const { id } = params;
   const { data: session } = useSession();
   const router = useRouter();

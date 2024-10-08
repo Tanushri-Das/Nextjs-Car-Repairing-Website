@@ -1,12 +1,11 @@
-import LoginForm from "./Form"
+import Container from "@/components/Container";
+import LoginForm from "./Form";
 
 const LoginPage = () => {
   return (
-    <section className="container h-screen flex items-center justify-center">
-      <div className="w-[800px]">
-        <LoginForm />
-      </div>
-    </section>
+    <Container className="flex items-center justify-center">
+      <LoginForm />
+    </Container>
   );
 };
 

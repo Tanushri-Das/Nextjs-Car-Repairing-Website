@@ -8,9 +8,9 @@ import Container from "../Container";
 const Details = () => {
   return (
     <Container>
-      <div className="bg-[#151515] px-10 py-16 rounded-xl">
+      <div className="bg-[#151515] dark:bg-[#737373] px-10 py-16 rounded-xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="flex justify-center items-center">
+          <div className="flex items-center">
             <div>
               <Image src={date} alt="date-icon" width={40.86} height={40.86} />
             </div>
@@ -23,7 +23,7 @@ const Details = () => {
               </p>
             </div>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex items-center">
             <div>
               <Image
                 src={phone}
@@ -39,7 +39,7 @@ const Details = () => {
               <p className="text-[25px] font-bold text-white">+2546 251 2658</p>
             </div>
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex items-center">
             <div>
               <Image
                 src={location}

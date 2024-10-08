@@ -64,9 +64,12 @@ const Banner = () => {
               alt={slide.title}
             />
             <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white p-4">
-              <h2 className="text-3xl font-bold">{slide.title}</h2>
-              <p className="mt-2 text-lg">{slide.description}</p>
-              <Button className="mt-4 px-4 py-2 bg-primary text-white rounded">
+              <h2 className="text-4xl font-bold">{slide.title}</h2>
+              <p className="my-6 text-lg font-semibold">{slide.description}</p>
+              <Button
+                type="submit"
+                className="py-2 rounded-md text-white text-lg font-medium bg-[#FF3811] hover:bg-[#FF3811] dark:bg-[#FF3811]"
+              >
                 Discover Services
               </Button>
             </div>

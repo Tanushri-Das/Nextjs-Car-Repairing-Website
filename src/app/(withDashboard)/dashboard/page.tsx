@@ -8,7 +8,7 @@ const DashboardPage = async () => {
   const { data: session } = useSession();
 
   return (
-    <Container className="mt-14">
+    <Container className="flex flex-col justify-center items-center min-h-screen">
       {session?.user && (
         <>
           <h1 className="text-4xl text-center">

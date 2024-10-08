@@ -8,11 +8,13 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const img_hosting_token = process.env.NEXT_PUBLIC_Image_Upload_token;
 const img_hosting_url = `https://api.imgbb.com/1/upload?key=${img_hosting_token}`;
 
 const AddReview: React.FC = () => {
+  useDynamicTitle();
   const { data: session } = useSession();
   const router = useRouter();
   const {
@@ -94,11 +96,11 @@ const AddReview: React.FC = () => {
   };
 
   return (
-    <Container className="mt-14 ps-0 md:ps-4">
+    <Container className="mt-8 ps-0 md:ps-4">
       <h1 className="text-4xl text-center font-bold">Add Review</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 mt-10 max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+        className="space-y-6 mt-6 max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -177,7 +179,10 @@ const AddReview: React.FC = () => {
         </div>
 
         <div className="flex justify-center">
-          <Button className="bg-[#FF3811] text-[20px] text-white font-semibold py-3 rounded-md w-full cursor-pointer outline-none">
+          <Button
+            type="submit"
+            className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+          >
             Submit
           </Button>
         </div>

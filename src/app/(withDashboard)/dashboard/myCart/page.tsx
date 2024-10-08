@@ -9,8 +9,10 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const MyCart = () => {
+  useDynamicTitle();
   const { data: cartData } = useCart();
   const { data: session } = useSession();
   const myBookings = cartData?.mybookings || [];
@@ -46,11 +48,11 @@ const MyCart = () => {
     0
   );
   return (
-    <Container className="mt-14">
+    <Container className="mt-8 ps-0">
       <h1 className="text-4xl font-bold flex justify-center items-center">
         My Cart
       </h1>
-      <div className="mt-10">
+      <div className="mt-6">
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
           <table className="min-w-full text-left text-sm font-light">
             <thead className="bg-gray-700 text-gray-200">

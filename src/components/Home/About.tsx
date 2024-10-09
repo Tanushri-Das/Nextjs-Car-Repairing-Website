@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 
 const About = () => {
   return (
-    <Container id="about" className="-mt-9">
+    <Container id="about">
       <div className="flex flex-col lg:flex-row items-center gap-x-8">
         <div className="lg:w-1/2 relative mb-28 lg:mb-0">
           <Image

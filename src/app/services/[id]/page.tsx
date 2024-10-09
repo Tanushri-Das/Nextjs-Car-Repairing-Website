@@ -8,6 +8,7 @@ import Image from "next/image";
 import Container from "@/components/Container";
 import LoadingPage from "@/app/loading";
 import useDynamicTitle from "@/hooks/useDynamicTitle";
+import { Button } from "@/components/ui/button";
 
 const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
   useDynamicTitle();
@@ -68,7 +69,7 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
               alt="Service Card"
             />
           </div>
-          <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
+          <div className="absolute h-full w-full top-0 left-0 flex items-center justify-center bg-gradient-to-b from-black/50 to-black/50">
             <h1 className="text-white text-3xl font-bold flex justify-center items-center ml-8">
               Details of {title}
             </h1>
@@ -77,25 +78,33 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
 
         <div className="p-10 bg-gray-100">
           <h2 className="text-3xl font-bold text-orange-600 mb-5">{title}</h2>
-          <p>{description}</p>
+          <p className="text-[#737373] dark:text-[#151515] text-[16px] w-full">
+            {description}
+          </p>
         </div>
       </div>
 
       <div className="my-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+          {/* Facility Items */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 gap-6">
             {facility.map((item, index) => (
               <div
-                className="bg-[#F3F3F3] p-4 border-t-4 border-t-rose-500 rounded-xl"
+                className="bg-[#F3F3F3] p-4 border-t-4 border-t-rose-500 rounded-lg"
                 key={index}
               >
-                <h2 className="text-xl font-bold mb-2">{item.name}</h2>
-                <p>{item.details}</p>
+                <h2 className="text-xl font-bold dark:text-[#151515] mb-2">
+                  {item.name}
+                </h2>
+                <p className="text-[16px] dark:text-[#151515]">
+                  {item.details}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="p-4 bg-gray-100 border-2 border-red-800">
+          {/* Checkout Section */}
+          <div className="p-4 bg-gray-100 rounded-lg w-full md:w-3/5 md:mx-auto xl:ml-auto xl:mr-0">
             <Image
               className="w-full object-cover h-40 rounded-lg"
               src={img}
@@ -103,16 +112,18 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
               width={400}
               height={400}
             />
-            <div className="flex my-4">
-              <h2 className="text-xl font-bold">Price : </h2>
-              <p className="text-xl font-bold ms-1"> ${price}</p>
+            <div className="flex flex-col justify-center items-center mt-7">
+              <h2 className="text-xl text-[#151515] dark:text-[#151515] font-bold mb-5">
+                Price : ${price}
+              </h2>
+              <Button
+                onClick={handleCheckoutClick}
+                type="submit"
+                className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+              >
+                Check out
+              </Button>
             </div>
-            <button
-              className="bg-primary text-white px-3 py-2 rounded-lg mt-2 w-full"
-              onClick={handleCheckoutClick}
-            >
-              Check out
-            </button>
           </div>
         </div>
       </div>

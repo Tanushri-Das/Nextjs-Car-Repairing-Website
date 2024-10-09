@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import Container from "@/components/Container";
 import useDynamicTitle from "@/hooks/useDynamicTitle";
+import { Button } from "@/components/ui/button";
 
 const CheckoutPage = ({ params }: { params: { id: string } }) => {
   useDynamicTitle();
@@ -109,7 +110,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
             className="rounded-lg"
           />
         </div>
-        <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
+        <div className="absolute h-full w-full top-0 left-0 flex items-center justify-center bg-gradient-to-b from-black/50 to-black/50">
           <h1 className="text-white text-4xl font-bold flex justify-center items-center ml-8 drop-shadow-md">
             Check Out {title}
           </h1>
@@ -200,12 +201,13 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className="form-control mt-8">
-            <input
-              className="bg-[#FF3811] text-white font-semibold py-3 rounded-md w-full cursor-pointer outline-none"
+          <div className="flex justify-center items-center mt-8">
+            <Button
               type="submit"
-              value="Confirm Order"
-            />
+              className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+            >
+              Confirm Order
+            </Button>
           </div>
         </form>
       </div>

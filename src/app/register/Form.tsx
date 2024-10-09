@@ -1,14 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -39,12 +31,10 @@ const RegisterForm = () => {
 
   async function onSubmit(values: RegisterFormValues) {
     if (values.password !== values.confirmPassword) {
-      // Passwords do not match, set passwordsMatch to false
       setPasswordsMatch(false);
       return;
     }
 
-    // Passwords match, proceed with form submission.
     setPasswordsMatch(true);
     const response = await fetch(`/api/auth/register`, {
       method: "POST",
@@ -81,129 +71,97 @@ const RegisterForm = () => {
           <Image src={loginImg} width={460} height={500} alt="loginImg" />
         </div>
         <div className="flex-1 w-full md:max-w-lg">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
-            >
-              <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
-                Sign Up
-              </h1>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="John Doe"
-                        {...field}
-                        className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                        required
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
+          >
+            <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
+              Sign Up
+            </h1>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                {...form.register("name", { required: true })}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                placeholder="John Doe"
+                required
               />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="johndoe@whatever.com"
-                        {...field}
-                        className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                        required
-                        pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
+            </div>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                {...form.register("email", { 
+                  required: true,
+                  pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                })}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                placeholder="johndoe@whatever.com"
+                required
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          {...field}
-                          className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                          required
-                          placeholder="Password"
-                          minLength={6}
-                        />
-                        <span
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={togglePasswordVisibility}
-                        >
-                          {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Confirm Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showConfirmPassword ? "text" : "password"}
-                          {...field}
-                          className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                          required
-                          placeholder="Confirm Password"
-                          minLength={6}
-                        />
-                        <span
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={toggleConfirmPasswordVisibility}
-                        >
-                          {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
-                        {!passwordsMatch && (
-                          <span className="text-red-600 text-xl mt-1">
-                            Password and Confirm Password do not match
-                          </span>
-                        )}
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <p className="block text-center text-[16px] font-medium">
-                Already have an account ? <Link href={"/login"}>Login</Link>
-              </p>
-              <div className="flex justify-center items-center">
-                <Button
-                  type="submit"
-                  className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+            </div>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...form.register("password", { required: true, minLength: 6 })}
+                  className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                  placeholder="Password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
                 >
-                  Sign Up
-                </Button>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
               </div>
-            </form>
-          </Form>
+            </div>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...form.register("confirmPassword", { required: true, minLength: 6 })}
+                  className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                  placeholder="Confirm Password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+                {!passwordsMatch && (
+                  <span className="text-red-600 text-sm mt-1">
+                    Password and Confirm Password do not match
+                  </span>
+                )}
+              </div>
+            </div>
+            <p className="block text-center text-[16px] font-medium">
+              Already have an account? <Link href={"/login"}>Login</Link>
+            </p>
+            <div className="flex justify-center items-center">
+              <Button
+                type="submit"
+                className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+              >
+                Sign Up
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </Container>

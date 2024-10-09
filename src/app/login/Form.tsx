@@ -2,14 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -53,7 +45,7 @@ const LoginForm = () => {
       console.error(response.error);
       Swal.fire({
         title: "Error!",
-        text: "Somwthing went wrong.please try again",
+        text: "Something went wrong. Please try again.",
         icon: "error",
         confirmButtonText: "Retry",
       });
@@ -76,98 +68,86 @@ const LoginForm = () => {
           <Image src={loginImg} width={460} height={500} alt="loginImg" />
         </div>
         <div className="flex-1 w-full md:max-w-lg">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 w-full mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
-            >
-              <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 w-full mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
+          >
+            <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
+              Login
+            </h1>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                {...form.register("email", {
+                  required: true,
+                  pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                })}
+                className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                placeholder="johndoe@whatever.com"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 dark:text-gray-100 text-lg font-semibold mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...form.register("password", {
+                    required: true,
+                    minLength: 6,
+                  })}
+                  className="border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg w-full p-3"
+                  placeholder="Password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+            </div>
+            <p className="block text-center text-[16px] font-medium">
+              Do not have an account? <Link href={"/register"}>Sign Up</Link>
+            </p>
+            <div className="flex justify-center items-center">
+              <Button
+                type="submit"
+                className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+              >
                 Login
-              </h1>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="johndoe@whatever.com"
-                        {...field}
-                        className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                        required
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          {...field}
-                          className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
-                          required
-                          placeholder="Password"
-                          minLength={6}
-                        />
-                        <span
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={togglePasswordVisibility}
-                        >
-                          {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <p className="block text-center text-[16px] font-medium">
-                Do not have an account ? <Link href={"/register"}>Sign Up</Link>
-              </p>
-              <div className="flex justify-center items-center">
-                <Button
-                  type="submit"
-                  className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
-                >
-                  Login
-                </Button>
-              </div>
+              </Button>
+            </div>
 
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5">
-                <button
-                  onClick={() =>
-                    signIn("google", {
-                      callbackUrl,
-                    })
-                  }
-                  className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
-                >
-                  Sign in with Google
-                </button>
-                <button
-                  onClick={() =>
-                    signIn("github", {
-                      callbackUrl,
-                    })
-                  }
-                  className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px] mt-2 sm:mt-0"
-                >
-                  Sign in with GitHub
-                </button>
-              </div>
-            </form>
-          </Form>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-x-5">
+              <button
+                onClick={() =>
+                  signIn("google", {
+                    callbackUrl,
+                  })
+                }
+                className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
+              >
+                Sign in with Google
+              </button>
+              <button
+                onClick={() =>
+                  signIn("github", {
+                    callbackUrl,
+                  })
+                }
+                className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px] mt-2 sm:mt-0"
+              >
+                Sign in with GitHub
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </Container>

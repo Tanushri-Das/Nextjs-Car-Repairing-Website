@@ -1,9 +1,17 @@
-import { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
+import type { NextAuthOptions, User } from "next-auth"; 
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import clientPromise from "@/lib/MongodbClient";
+import clientPromise from "@/lib/MongodbClient"; 
 import bcrypt from "bcryptjs";
+import { JWT } from "next-auth/jwt";
+
+// Define a custom type for the JWT token
+interface CustomToken extends JWT {
+  // Extend JWT interface
+  id?: string;
+}
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -28,32 +36,23 @@ export const authOptions: NextAuthOptions = {
         const client = await clientPromise;
         const db = client.db();
 
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
+        const user = await db
+          .collection("users")
+          .findOne({ email: credentials?.email });
+
+        if (!user || !credentials?.password) {
+          throw new Error("Invalid email or password");
         }
 
-        const user = await db.collection("users").findOne({
-          email: credentials.email,
-        });
-
-        if (!user) {
-          throw new Error("No user found with this email");
-        }
-
-        const passwordCorrect = await bcrypt.compare(
+        const isPasswordCorrect = await bcrypt.compare(
           credentials.password,
           user.password
         );
-
-        if (!passwordCorrect) {
-          throw new Error("Incorrect password");
+        if (!isPasswordCorrect) {
+          throw new Error("Invalid email or password");
         }
 
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-        };
+        return { id: user._id.toString(), name: user.name, email: user.email }; // Adjust as necessary
       },
     }),
   ],
@@ -61,46 +60,37 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       const client = await clientPromise;
       const db = client.db();
 
-      // Check if account exists before accessing its properties
-      if (
-        account &&
-        (account.provider === "google" || account.provider === "github")
-      ) {
-        // Check if the user already exists in the database
+      if (account?.provider === "google" || account?.provider === "github") {
         const existingUser = await db
           .collection("users")
           .findOne({ email: user.email });
-
-        // If the user doesn't exist, create a new user in the database
         if (!existingUser) {
           await db.collection("users").insertOne({
-            name: user.name || (profile?.name ?? "Unknown"), // Get user's name from profile or fallback
-            email: user.email || (profile?.email ?? "Unknown"), // Get user's email from profile or fallback
+            name: user.name ?? "Unknown",
+            email: user.email ?? "Unknown",
           });
         }
       }
-
-      return true; // Continue sign-in
+      return true;
     },
-
     async session({ session, token }) {
-      // Ensure session.user is not undefined and assign the token's id
-      if (session?.user && token?.sub) {
+      if (session.user && token.sub) {
         session.user.id = token.sub;
       }
       return session;
     },
-
-    async jwt({ token, user }) {
-      // Assign user id to the token
+    // Update the jwt callback to use CustomToken
+    async jwt({ token, user }: { token: CustomToken; user?: User }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id; // Ensure user has id
       }
       return token;
     },
   },
 };
+
+export default NextAuth(authOptions);

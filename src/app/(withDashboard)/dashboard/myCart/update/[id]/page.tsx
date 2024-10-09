@@ -3,7 +3,6 @@
 import Container from "@/components/Container";
 import useCartById from "@/hooks/useCartById";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -12,19 +11,34 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import LoadingPage from "@/app/loading";
 import { useRouter } from "next/navigation";
+import { Booking, FormData } from "@/types";
+import { Button } from "@/components/ui/button";
 
-const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
+interface BookingUpdatePageProps {
+  params: {
+    id: string;
+  };
+}
+
+const BookingUpdatePage: React.FC<BookingUpdatePageProps> = ({ params }) => {
   const { id } = params;
   const { data: session } = useSession();
   const { data, isLoading } = useCartById(id);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    date: "",
+    email: "",
+    price: "",
+    address: "",
+    phone: "",
+    countryCode: "",
+  });
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const booking = data?.response;
+  const booking = data?.response as Booking;
 
-  // Populate the form data once booking data is loaded
   useEffect(() => {
     if (booking) {
       setFormData({
@@ -34,7 +48,7 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
         price: booking.price || "",
         address: booking.address || "",
         phone: booking.phone || "",
-        countryCode: booking.countryCode || "", // Initialize countryCode here
+        countryCode: booking.countryCode || "",
       });
       setPhoneNumber(`${booking.countryCode}${booking.phone}`);
     }
@@ -44,7 +58,6 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
     setPhoneNumber(value);
   };
 
-  // Handle input changes in the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -52,10 +65,9 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
     });
   };
 
-  // Mutation for updating booking
   const updateMutation = useMutation({
-    mutationFn: async (updatedBooking: any) => {
-      return await axios.patch(
+    mutationFn: async (updatedBooking: Booking) => {
+      return await axios.patch<Booking>(
         `/dashboard/myCart/api/booking/${updatedBooking._id}`,
         updatedBooking
       );
@@ -67,12 +79,12 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
 
       Swal.fire({
         title: "Success!",
-        text: "Update personal information successfully",
+        text: "Update booking information successfully",
         icon: "success",
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
-        router.push("/dashboard/myCart"); // Navigate to MyCart after update
+        router.push("/dashboard/myCart");
       });
     },
     onError: (error) => {
@@ -83,14 +95,18 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10); // Assuming country code is 3 digits
-    const phone = phoneNumber.slice(-10); // Last 10 digits for the phone number
+    const countryCode = phoneNumber.slice(0, phoneNumber.length - 10);
+    const phone = phoneNumber.slice(-10);
 
-    const updatedBooking = {
+    const updatedBooking: Booking = {
       ...booking,
       ...formData,
       phone,
       countryCode,
+      price:
+        typeof formData.price === "string"
+          ? parseFloat(formData.price)
+          : formData.price, // Ensure price is a number
     };
 
     updateMutation.mutate(updatedBooking);
@@ -101,25 +117,9 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <Container className="mt-14 ps-0 md:ps-4">
-      <div className="relative h-72 w-[90vw] max-w-full mx-auto mb-0 md:mb-16 hidden md:block">
-        <div className="w-full h-full relative overflow-hidden rounded-lg shadow-lg">
-          <Image
-            src={booking?.serviceImage || "/default-image.jpg"}
-            alt="service"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-          />
-        </div>
-        <div className="absolute h-full left-0 top-0 flex items-center justify-center bg-gradient-to-r from-[#151515] to-[rgba(21, 21, 21, 0)] ">
-          <h1 className="text-white text-4xl font-bold flex justify-center items-center ml-8 drop-shadow-md">
-            Update Booking : {booking?.serviceName}
-          </h1>
-        </div>
-      </div>
-
-      <div className="bg-white dark:bg-gray-900 w-full max-w-4xl mx-auto p-6 py-9 md:p-12 rounded-lg shadow-md">
+    <Container className="mt-8 ps-0 md:ps-4">
+      <h1 className="text-4xl text-center font-bold">Edit Booking</h1>
+      <div className="bg-white dark:bg-gray-900 w-full max-w-4xl mx-auto p-6 py-9 md:p-12 rounded-lg shadow-md mt-6">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="form-control">
@@ -177,41 +177,40 @@ const BookingUpdatePage = ({ params }: { params: { id: string } }) => {
 
             <div className="form-control">
               <label className="text-lg font-medium text-gray-700 dark:text-gray-300 block mb-2">
-                Phone
+                Address
+              </label>
+              <input
+                value={formData.address}
+                type="text"
+                name="address"
+                onChange={handleInputChange}
+                className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="text-lg font-medium text-gray-700 dark:text-gray-300 block mb-2">
+                Phone Number
               </label>
               <PhoneInput
                 country={"in"}
                 value={phoneNumber}
                 onChange={handleChange}
                 inputProps={{
-                  required: true,
                   className:
                     "border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full ps-12 py-2 outline-none",
                 }}
               />
             </div>
-
-            <div className="form-control">
-              <label className="text-lg font-medium text-gray-700 dark:text-gray-300 block mb-2">
-                Address
-              </label>
-              <input
-                type="text"
-                value={formData.address}
-                name="address"
-                onChange={handleInputChange}
-                required
-                className="border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md w-full px-4 py-2 outline-none"
-              />
-            </div>
           </div>
 
-          <div className="form-control mt-8">
-            <input
-              className="bg-[#FF3811] text-white font-semibold py-3 rounded-md w-full cursor-pointer outline-none"
+          <div className="flex justify-center items-center mt-8">
+            <Button
               type="submit"
-              value="Confirm Order"
-            />
+              className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+            >
+              Update Booking
+            </Button>
           </div>
         </form>
       </div>

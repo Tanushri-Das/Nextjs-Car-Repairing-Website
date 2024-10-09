@@ -17,12 +17,7 @@ const AddReview: React.FC = () => {
   useDynamicTitle();
   const { data: session } = useSession();
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<Review>();
+  const { register, handleSubmit, reset } = useForm<Review>();
 
   const reviewMutation = useMutation({
     mutationFn: (newReview: Review) => {
@@ -85,7 +80,7 @@ const AddReview: React.FC = () => {
           confirmButtonText: "Retry",
         });
       }
-    } catch (error) {
+    } catch {
       Swal.fire({
         title: "Error!",
         text: "There was an issue uploading the image.",

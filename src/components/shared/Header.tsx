@@ -43,12 +43,6 @@ const Header = () => {
             <Link href="/" className="text-lg">
               Home
             </Link>
-            <Link href="#about" className="text-lg">
-              About
-            </Link>
-            <Link href="#services" className="text-lg">
-              Services
-            </Link>
             <Link href="/contacts" className="text-lg">
               Contacts
             </Link>
@@ -106,12 +100,6 @@ const Header = () => {
             {/* Hardcoded Drawer Links */}
             <Link href="/" className="text-lg" onClick={toggleDrawer}>
               Home
-            </Link>
-            <Link href="#about" className="text-lg" onClick={toggleDrawer}>
-              About
-            </Link>
-            <Link href="#services" className="text-lg" onClick={toggleDrawer}>
-              Services
             </Link>
             <Link href="/contacts" className="text-lg" onClick={toggleDrawer}>
               Contacts

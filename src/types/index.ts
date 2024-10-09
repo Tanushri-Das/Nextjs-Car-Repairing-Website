@@ -32,10 +32,11 @@ export type Review = {
   name: string;
   email: string;
   designation: string;
-  rating: string;
+  rating: number;
   description: string;
   image: string;
 };
+
 export type NewBooking = {
   email: string;
   name: string;
@@ -65,6 +66,15 @@ export type Booking = {
 export type BookingResponse = {
   message: string;
   response: Booking;
+};
+export type FormData = {
+  name: string;
+  date: string;
+  email: string;
+  price: string | number;
+  address: string;
+  phone: string;
+  countryCode: string;
 };
 export type Contact = {
   name: string;

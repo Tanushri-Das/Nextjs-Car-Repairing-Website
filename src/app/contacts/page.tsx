@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import img from "../../assets/images/banner/4.jpg";
 import Image from "next/image";
 import useDynamicTitle from "@/hooks/useDynamicTitle";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const Contacts = () => {
   useDynamicTitle();
@@ -87,23 +88,25 @@ const Contacts = () => {
 
   return (
     <Container className="mt-14">
-      <div className="h-80 w-[90vw] max-w-full mx-auto mb-10">
-        <div className="w-full h-full relative overflow-hidden rounded-lg shadow-lg">
+      <div className="relative h-72 mb-10">
+        <div className="w-full h-full relative overflow-hidden">
           <Image
             src={img}
-            alt="service"
+            alt="contacts image"
             layout="fill"
             objectFit="cover"
             className="rounded-lg"
           />
         </div>
+        {/* Breadcrumb */}
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center">
+          <Breadcrumb page={"Contacts"} />
+        </div>
       </div>
 
       <h1 className="text-4xl text-center font-bold mb-4">Contact Us</h1>
       <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-full md:w-2/4 mx-auto">
-        Have questions about your vehicle's maintenance or repair needs? Reach
-        out to our team of expert mechanics for fast and reliable service. We
-        are here to help you keep your car running smoothly.
+        We are here to help you keep your car running smoothly.
       </p>
 
       <form

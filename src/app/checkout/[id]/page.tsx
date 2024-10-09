@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import Container from "@/components/Container";
 import useDynamicTitle from "@/hooks/useDynamicTitle";
 import { Button } from "@/components/ui/button";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const CheckoutPage = ({ params }: { params: { id: string } }) => {
   useDynamicTitle();
@@ -100,20 +101,15 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <Container className="mt-14">
-      <div className="relative h-72 w-[90vw] max-w-full mx-auto mb-16">
-        <div className="w-full h-full relative overflow-hidden rounded-lg shadow-lg">
-          <Image
-            src={img}
-            alt="service"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-          />
+      <div className="relative h-72 mb-10">
+        <div className="w-full h-full relative overflow-hidden">
+          <Image src={img} alt="service" layout="fill" objectFit="cover" />
         </div>
         <div className="absolute h-full w-full top-0 left-0 flex items-center justify-center bg-gradient-to-b from-black/50 to-black/50">
-          <h1 className="text-white text-4xl font-bold flex justify-center items-center ml-8 drop-shadow-md">
-            Check Out {title}
-          </h1>
+          <h1 className="text-white text-4xl font-bold">Check Out {title}</h1>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 flex justify-center">
+          <Breadcrumb page={"Checkout"} />
         </div>
       </div>
 
@@ -204,7 +200,7 @@ const CheckoutPage = ({ params }: { params: { id: string } }) => {
           <div className="flex justify-center items-center mt-8">
             <Button
               type="submit"
-              className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
+              className="rounded-md text-white text-[16px] font-medium bg-[#FF3811] dark:bg-[#FF3811]"
             >
               Confirm Order
             </Button>

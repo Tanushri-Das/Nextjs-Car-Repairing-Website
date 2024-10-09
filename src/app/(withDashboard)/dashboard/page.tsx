@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-const DashboardPage = async () => {
+const DashboardPage = () => {
   const { data: session } = useSession();
 
   return (

@@ -25,5 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/checkout/:path*", "/myCart","/dashboard/:path*"], // Private routes-er jonno matcher
+  matcher: ["/checkout/:path*", "/myCart","/dashboard/:path*"],
 };

@@ -37,7 +37,7 @@ const MyCart = () => {
     deleteMutation.mutate(bookingId);
     Swal.fire({
       title: "Success!",
-      text: "Service deleted succesfully from the cart",
+      text: "Booking deleted succesfully.",
       icon: "success",
       timer: 1500,
       showConfirmButton: false,

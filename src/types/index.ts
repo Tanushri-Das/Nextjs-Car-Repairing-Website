@@ -4,6 +4,10 @@ export interface RegisterFormValues {
   password: string;
   confirmPassword: string;
 }
+export type Facility = {
+  name: string;
+  details: string;
+};
 export type Service = {
   _id: string;
   service_id: string;
@@ -11,15 +15,7 @@ export type Service = {
   img: string;
   price: string;
   description: string;
-  facility: Array<{
-    name: string;
-    details: string;
-  }>;
-};
-// Define the response type for the API
-export type ServiceResponse = {
-  message: string;
-  response: Service;
+  facility: Facility[];
 };
 export type Team = {
   _id: string;

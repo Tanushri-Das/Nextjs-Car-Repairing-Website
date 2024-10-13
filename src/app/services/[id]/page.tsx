@@ -1,34 +1,16 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import Swal from "sweetalert2";
-import { usePathname, useRouter } from "next/navigation";
-import useServiceById from "@/hooks/useServiceById";
 import Image from "next/image";
 import Container from "@/components/Container";
-import LoadingPage from "@/app/loading";
-import useDynamicTitle from "@/hooks/useDynamicTitle";
-import { Button } from "@/components/ui/button";
-import ServiceTitlesList from "@/components/ServiceTitlesList";
 import Breadcrumb from "@/components/Breadcrumb";
+import { getServiceById } from "@/services/getService";
+import { Service } from "@/types";
+import ServiceTitles from "@/components/ServiceTitles/ServiceTitles";
+import Checkout from "@/components/Checkout";
 
-const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
-  useDynamicTitle();
+const ServiceDetailsPage = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
-  const { data: session } = useSession();
-  const router = useRouter();
-  const pathname = usePathname();
 
   // Fetch service data using the ID
-  const { data, isLoading } = useServiceById(id); // Use isLoading and isError
-
-  // If the data is still loading, display the loading page
-  if (isLoading) {
-    return <LoadingPage />; // Render the loading component
-  }
-
-  // Access the service data from the response object
-  const service = data?.response;
+  const service: { response: Service } | null = await getServiceById(id);
 
   // If service data is not available, return early or render a fallback
   if (!service) {
@@ -36,28 +18,7 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
   }
 
   // Destructure the service object
-  const { title, description, img, price, facility, _id } = service;
-
-  const handleCheckoutClick = () => {
-    if (!session) {
-      Swal.fire({
-        title: "Please login to proceed to checkout",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Login Now",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Redirect to login page with callback URL
-          router.push(`/login?callbackUrl=${pathname}`);
-        }
-      });
-    } else {
-      // Proceed to checkout if user is logged in
-      router.push(`/checkout/${_id}`);
-    }
-  };
+  const { title, description, img, price, facility, _id } = service.response;
 
   return (
     <Container className="mt-14">
@@ -96,11 +57,9 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
 
         {/* Right Side: Service Titles List */}
         <div>
-          <ServiceTitlesList />
+          <ServiceTitles />
         </div>
       </div>
-
-      {/* Facilities and Checkout Section */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
         {/* Left Side: Facility Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 gap-6">
@@ -116,29 +75,8 @@ const ServiceDetailsPage = ({ params }: { params: { id: string } }) => {
             </div>
           ))}
         </div>
-
         {/* Right Side: Checkout Section */}
-        <div className="p-8 bg-gray-100 rounded-lg w-full md:w-3/5 md:mx-auto xl:w-3/4 xl:ml-auto xl:mr-0">
-          <Image
-            className="w-full object-cover h-40 rounded-lg"
-            src={img}
-            alt="checkout service"
-            width={400}
-            height={400}
-          />
-          <div className="flex flex-col justify-center items-center mt-7">
-            <h2 className="text-xl text-[#151515] dark:text-[#151515] font-bold mb-5">
-              Price : ${price}
-            </h2>
-            <Button
-              onClick={handleCheckoutClick}
-              type="submit"
-              className="rounded-md text-white text-lg font-medium bg-[#FF3811] dark:bg-[#FF3811]"
-            >
-              Check out
-            </Button>
-          </div>
-        </div>
+        <Checkout serviceId={_id} serviceImg={img} servicePrice={price} />
       </div>
     </Container>
   );

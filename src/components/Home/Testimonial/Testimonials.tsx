@@ -4,38 +4,31 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import "./Testimonials.css";
-import { IoIosArrowRoundForward } from "react-icons/io";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowRoundForward, IoIosArrowRoundBack } from "react-icons/io";
 import RenderStars from "@/components/shared/RenderStars";
 import { FaQuoteRight } from "react-icons/fa";
 import Image from "next/image";
 import useReviews from "@/hooks/useReviews";
 import Container from "@/components/Container";
+import "./Testimonials.css"; 
 
 const Testimonials = () => {
   const { data: reviews } = useReviews();
   const [swiperSlidesPerView, setSwiperSlidesPerView] = useState(1);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    // Update the number of slides per view based on screen size
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
-        // Medium screens
         setSwiperSlidesPerView(2);
       } else {
-        // Small screens
         setSwiperSlidesPerView(1);
       }
     };
 
-    // Initial call
     handleResize();
-
-    // Add event listener to handle screen size changes
     window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -63,6 +56,10 @@ const Testimonials = () => {
             navigation={{
               prevEl: ".swiper-button-prev-div",
               nextEl: ".swiper-button-next-div",
+            }}
+            onSlideChange={(swiper) => {
+              setIsBeginning(swiper.isBeginning);
+              setIsEnd(swiper.isEnd);
             }}
             modules={[Navigation]}
             className="mySwiper mt-10 h-[220px] relative"
@@ -96,24 +93,36 @@ const Testimonials = () => {
                     {review.description}
                   </p>
                   <div className="flex justify-between">
-                    <div className="mb-6 flex justify-between items-center">
-                      <div className="flex justify-center items-center">
-                        <RenderStars rating={review.rating} />
-                      </div>
-                    </div>
+                    <RenderStars rating={review.rating} />
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
+
+          {/* Navigation Buttons */}
           <div className="swiper-button-prev-parent-div">
-            <div className="swiper-button-prev-div">
-              <IoIosArrowRoundBack />
+            <div
+              className={`swiper-button-prev-div ${
+                isBeginning ? "disabled" : ""
+              }`}
+            >
+              <IoIosArrowRoundBack
+                className={`cursor-pointer ${
+                  isBeginning ? "text-gray-300" : "text-[#FF3811]"
+                }`}
+              />
             </div>
           </div>
           <div className="swiper-button-next-parent-div">
-            <div className="swiper-button-next-div">
-              <IoIosArrowRoundForward />
+            <div
+              className={`swiper-button-next-div ${isEnd ? "disabled" : ""}`}
+            >
+              <IoIosArrowRoundForward
+                className={`cursor-pointer ${
+                  isEnd ? "text-gray-300" : "text-white"
+                }`}
+              />
             </div>
           </div>
         </div>
